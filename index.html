@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Cuento">
+<meta name="apple-mobile-web-app-title" content="Spanish">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#F3F2ED" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0F1626" media="(prefers-color-scheme: dark)">
@@ -13,7 +13,7 @@
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<title>Cuento del Día</title>
+<title>Spanish Reader</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -167,23 +167,23 @@ textarea{width:100%;min-height:90px;border-radius:10px;border:1.5px solid var(--
 
 <div class="wrap">
   <div class="top">
-    <div class="brand">Cuento <span>del Día</span></div>
+    <div class="brand">Spanish <span>Reader</span></div>
     <div class="streak" id="streak"></div>
   </div>
 
-  <section id="v-hoy" aria-label="Hoy"></section>
-  <section id="v-repaso" aria-label="Repaso" hidden></section>
-  <section id="v-palabras" aria-label="Palabras" hidden></section>
+  <section id="v-hoy" aria-label="Today"></section>
+  <section id="v-repaso" aria-label="Review" hidden></section>
+  <section id="v-palabras" aria-label="Words" hidden></section>
 </div>
 
-<nav class="tabs" aria-label="Secciones">
+<nav class="tabs" aria-label="Sections">
   <div class="in" role="tablist">
     <button role="tab" id="t-hoy" aria-selected="true" data-v="hoy">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Hoy</button>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Today</button>
     <button role="tab" id="t-repaso" aria-selected="false" data-v="repaso">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Repaso<span class="badge" id="badge" hidden></span></button>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Review<span class="badge" id="badge" hidden></span></button>
     <button role="tab" id="t-palabras" aria-selected="false" data-v="palabras">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Palabras</button>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Words</button>
   </div>
 </nav>
 
@@ -194,9 +194,9 @@ textarea{width:100%;min-height:90px;border-radius:10px;border:1.5px solid var(--
     <div class="w2" id="sheet-en"></div>
     <p class="w3" id="sheet-note"></p>
     <div class="row">
-      <button class="btn" id="sheet-say">Escuchar</button>
-      <button class="btn ghost" id="sheet-slow">Despacio</button>
-      <button class="btn ghost" id="sheet-close">Cerrar</button>
+      <button class="btn" id="sheet-say">Listen</button>
+      <button class="btn ghost" id="sheet-slow">Slowly</button>
+      <button class="btn ghost" id="sheet-close">Close</button>
     </div>
   </div>
 </div>
@@ -308,15 +308,15 @@ function pickVoice() {
 }
 if ("speechSynthesis" in window) speechSynthesis.onvoiceschanged = () => { voice = pickVoice(); };
 function speak(text, rate = 0.92) {
-  if (!("speechSynthesis" in window)) return toast("Este navegador no tiene voz.");
+  if (!("speechSynthesis" in window)) return toast("This browser has no speech support.");
   voice = voice || pickVoice();
-  if (!voice) return toast("No hay una voz en español instalada en este dispositivo.");
+  if (!voice) return toast("No Spanish voice is installed on this device.");
   try {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.voice = voice; u.lang = voice.lang; u.rate = rate;
     speechSynthesis.speak(u);
-  } catch (e) { toast("No se pudo reproducir el audio aquí."); }
+  } catch (e) { toast("Audio couldn't play here."); }
 }
 let toastT;
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2600); }
@@ -358,13 +358,13 @@ function openSheet({ i, t }) {
     big.appendChild(document.createTextNode(w[0]));
     $("sheet-en").textContent = w[1];
     const s = st.w[w[0]];
-    const where = w[3] ? "Aparece en el día " + w[3] : "Añadida por ti";
-    $("sheet-note").textContent = s ? where + (s[0] >= KNOWN ? " · ya la sabes" : " · en repaso") : where + (w[3] ? "" : " · espera su turno en el repaso");
+    const where = w[3] ? "From day " + w[3] : "Added by you";
+    $("sheet-note").textContent = s ? where + (s[0] >= KNOWN ? " · you know it" : " · in review") : where + (w[3] ? "" : " · waiting to enter review");
   } else {
     sheetText = t;
     $("sheet-w").textContent = t;
     $("sheet-en").textContent = "";
-    $("sheet-note").textContent = "Esta forma no está en tu banco de palabras. Puedes escucharla igual.";
+    $("sheet-note").textContent = "This form isn't in your word bank yet. You can still listen to it.";
   }
   $("scrim").hidden = false; $("sheet").hidden = false;
   speak(sheetText);
@@ -389,13 +389,13 @@ let readingAhead = false, showTrans = false;
 function viewHoy() {
   const v = $("v-hoy"); v.textContent = "";
   if (st.idx >= STORIES.length) {
-    const e = el("div", "empty"); e.appendChild(el("div", "glyph", "¡Fin!"));
-    e.appendChild(el("p", null, "Leíste los " + STORIES.length + " cuentos. Sigue con el repaso cada día para no olvidar."));
+    const e = el("div", "empty"); e.appendChild(el("div", "glyph", "The end"));
+    e.appendChild(el("p", null, "You've read all " + STORIES.length + " stories. Keep reviewing every day so the words stick."));
     const w = waiting();
     e.appendChild(el("p", null, w
-      ? "Tienes " + w + " palabras tuyas esperando. Entran al repaso de " + NEW_PER_DAY + " en " + NEW_PER_DAY + " cada día."
-      : "Añade las palabras de tus próximas clases y entrarán al repaso, " + NEW_PER_DAY + " por día."));
-    const b = el("button", "btn", "Añadir palabras"); b.onclick = () => { show("palabras"); setTimeout(() => { const t = $("addwords"); if (t) { t.scrollIntoView({ block: "center" }); t.focus(); } }, 50); };
+      ? w + " of your own words are waiting. They enter review " + NEW_PER_DAY + " per day."
+      : "Add the words from your next lessons and they'll enter review, " + NEW_PER_DAY + " per day."));
+    const b = el("button", "btn", "Add words"); b.onclick = () => { show("palabras"); setTimeout(() => { const t = $("addwords"); if (t) { t.scrollIntoView({ block: "center" }); t.focus(); } }, 50); };
     e.appendChild(b);
     v.appendChild(e); return;
   }
@@ -403,46 +403,46 @@ function viewHoy() {
   if (finishedToday) {
     const prev = STORIES[st.idx - 1];
     const box = el("div", "donebox");
-    box.appendChild(el("div", "eyebrow", "Día " + prev[0] + " terminado"));
-    box.appendChild(el("h2", null, "Listo por hoy."));
-    box.appendChild(el("p", "sub", prev[4].length + " palabras nuevas entran al repaso desde mañana. Mañana te espera el día " + (prev[0] + 1) + "."));
+    box.appendChild(el("div", "eyebrow", "Day " + prev[0] + " done"));
+    box.appendChild(el("h2", null, "Done for today."));
+    box.appendChild(el("p", "sub", prev[4].length + " new words enter your review from tomorrow. Day " + (prev[0] + 1) + " is waiting for you tomorrow."));
     const r = el("div", "row"); r.style.marginTop = "16px";
-    const ahead = el("button", "btn ghost", "Leer el siguiente");
+    const ahead = el("button", "btn ghost", "Read the next one");
     ahead.onclick = () => { readingAhead = true; showTrans = false; viewHoy(); };
     r.append(ahead); box.appendChild(r);
     v.appendChild(box);
     const d = due().length;
     if (d) {
       const p = el("p", "sub", ""); p.style.marginTop = "18px";
-      p.textContent = "Tienes " + d + (d === 1 ? " palabra" : " palabras") + " para repasar.";
-      const go = el("button", "btn small", "Ir al repaso"); go.style.marginLeft = "10px"; go.onclick = () => show("repaso");
+      p.textContent = "You have " + d + (d === 1 ? " word" : " words") + " to review.";
+      const go = el("button", "btn small", "Go to review"); go.style.marginLeft = "10px"; go.onclick = () => show("repaso");
       p.appendChild(go); v.appendChild(p);
     }
     return;
   }
 
   const s = STORIES[st.idx];
-  v.appendChild(el("div", "eyebrow", "Día " + s[0] + " de " + STORIES.length));
+  v.appendChild(el("div", "eyebrow", "Day " + s[0] + " of " + STORIES.length));
   v.appendChild(el("h1", null, s[1]));
   const meta = el("div", "meta");
-  meta.appendChild(el("span", "chip", s[4].length + " palabras nuevas"));
-  const listen = el("button", "btn small", "Escuchar el cuento");
+  meta.appendChild(el("span", "chip", s[4].length + " new words"));
+  const listen = el("button", "btn small", "Listen to the story");
   listen.onclick = () => speak(plain(s[2]), 0.88);
-  const slow = el("button", "btn ghost small", "Despacio");
+  const slow = el("button", "btn ghost small", "Slowly");
   slow.onclick = () => speak(plain(s[2]), 0.65);
   meta.append(listen, slow);
   v.appendChild(meta);
 
   const p = el("p", "story"); renderMarked(s[2], p); v.appendChild(p);
-  if (st.idx < 3) v.appendChild(el("p", "hint", "Toca cualquier palabra para ver qué significa y escucharla. Las palabras resaltadas son las nuevas de hoy."));
+  if (st.idx < 3) v.appendChild(el("p", "hint", "Tap any word to see what it means and hear it. The highlighted words are today's new ones."));
 
   if (!showTrans) {
-    const b = el("button", "btn ghost", "Mostrar traducción");
+    const b = el("button", "btn ghost", "Show translation");
     b.onclick = () => { showTrans = true; viewHoy(); };
     const r = el("div", "row"); r.style.marginBottom = "24px"; r.appendChild(b); v.appendChild(r);
   } else {
     v.appendChild(el("p", "trans", s[3]));
-    v.appendChild(el("h2", null, "Palabras de hoy"));
+    v.appendChild(el("h2", null, "Today's words"));
     const ul = el("ul", "wordlist");
     for (const lemma of s[4]) {
       const i = BY_LEMMA.get(lemma.toLowerCase()); const w = WORDS[i];
@@ -456,7 +456,7 @@ function viewHoy() {
     v.appendChild(ul);
   }
 
-  const done = el("button", "btn", "Terminé el cuento");
+  const done = el("button", "btn", "I finished the story");
   done.onclick = finishStory;
   const r2 = el("div", "row stretch"); r2.appendChild(done); v.appendChild(r2);
 }
@@ -475,7 +475,7 @@ function startReview() { rv.q = due(); rv.pos = 0; rv.open = false; rv.done = 0;
 function viewRepaso() {
   const v = $("v-repaso"); v.textContent = "";
   const head = el("div", "row"); head.style.justifyContent = "space-between";
-  const left = el("div"); left.appendChild(el("div", "eyebrow", "Repaso"));
+  const left = el("div"); left.appendChild(el("div", "eyebrow", "Review"));
   head.appendChild(left);
   const seg = el("div", "seg");
   for (const [k, txt] of [["es", "ES → EN"], ["en", "EN → ES"]]) {
@@ -492,11 +492,11 @@ function viewRepaso() {
     e.appendChild(el("div", "glyph", rv.done ? "✓" : "·"));
     const total = Object.keys(st.w).length;
     let msg;
-    if (!total) msg = "Todavía no hay palabras. Lee el cuento de hoy y sus palabras aparecerán aquí mañana.";
-    else if (rv.done) msg = "Repasaste " + rv.done + (rv.done === 1 ? " palabra" : " palabras") + ". Nada más pendiente por hoy.";
-    else msg = "Nada pendiente por hoy.";
+    if (!total) msg = "No words yet. Read today's story and its words will show up here tomorrow.";
+    else if (rv.done) msg = "You reviewed " + rv.done + (rv.done === 1 ? " word" : " words") + ". Nothing else due today.";
+    else msg = "Nothing due today.";
     const tom = Object.values(st.w).filter(x => x[1] === today() + 1).length;
-    if (total && tom) msg += " Mañana: " + tom + ".";
+    if (total && tom) msg += " Tomorrow: " + tom + ".";
     e.appendChild(el("p", null, msg));
     v.appendChild(e);
     if (fresh.length) { startReview(); viewRepaso(); }
@@ -506,7 +506,7 @@ function viewRepaso() {
   const lemma = rv.q[rv.pos], i = BY_LEMMA.get(lemma.toLowerCase()), w = WORDS[i];
   const pb = el("div", "progressbar"); const fill = el("i"); fill.style.width = (rv.pos / rv.q.length * 100) + "%"; pb.appendChild(fill);
   v.appendChild(pb);
-  v.appendChild(el("p", "sub", (rv.pos + 1) + " de " + rv.q.length));
+  v.appendChild(el("p", "sub", (rv.pos + 1) + " of " + rv.q.length));
 
   const card = el("div", "card");
   const front = el("div", "front");
@@ -515,7 +515,7 @@ function viewRepaso() {
     front.appendChild(document.createTextNode(w[0]));
   } else { front.classList.add("en"); front.textContent = w[1]; }
   card.appendChild(front);
-  if (!w[3]) { const c = el("p", "ctx", "Añadida por ti"); c.style.fontFamily = "var(--mono)"; c.style.fontSize = ".75rem"; card.appendChild(c); }
+  if (!w[3]) { const c = el("p", "ctx", "Added by you"); c.style.fontFamily = "var(--mono)"; c.style.fontSize = ".75rem"; card.appendChild(c); }
   if (rv.dir === "es" && w[4]) { const c = el("p", "ctx"); renderCtx(w[4], c); card.appendChild(c); }
 
   if (rv.open) {
@@ -525,7 +525,7 @@ function viewRepaso() {
       const b = el("div", "big"); b.style.fontFamily = "var(--mono)"; b.style.color = "var(--cobalt)"; b.textContent = label(w); a.appendChild(b);
       if (w[4]) { const c = el("p", "ctx"); renderCtx(w[4], c); a.appendChild(c); }
     }
-    const say = el("button", "btn ghost small", "Escuchar"); say.style.marginTop = "14px"; say.onclick = () => speak(w[0]);
+    const say = el("button", "btn ghost small", "Listen"); say.style.marginTop = "14px"; say.onclick = () => speak(w[0]);
     a.appendChild(say);
     card.appendChild(a);
   }
@@ -533,15 +533,15 @@ function viewRepaso() {
 
   const r = el("div", "row stretch");
   if (!rv.open) {
-    const b = el("button", "btn", "Mostrar"); b.onclick = reveal; r.appendChild(b);
+    const b = el("button", "btn", "Show answer"); b.onclick = reveal; r.appendChild(b);
   } else {
-    const bad = el("button", "btn bad", "Otra vez"); bad.onclick = () => grade(false);
-    const good = el("button", "btn good", "La sabía"); good.onclick = () => grade(true);
+    const bad = el("button", "btn bad", "Again"); bad.onclick = () => grade(false);
+    const good = el("button", "btn good", "I knew it"); good.onclick = () => grade(true);
     r.append(bad, good);
   }
   v.appendChild(r);
   const k = el("p", "sub"); k.style.marginTop = "14px"; k.style.textAlign = "center";
-  k.textContent = "Teclado: espacio para mostrar · 1 otra vez · 2 la sabía";
+  k.textContent = "Keyboard: space to show · 1 again · 2 I knew it";
   v.appendChild(k);
 }
 function reveal() { rv.open = true; viewRepaso(); const w = WORDS[BY_LEMMA.get(rv.q[rv.pos].toLowerCase())]; speak(w[0]); }
@@ -567,20 +567,20 @@ let filter = "seen", query = "", limit = 150;
 function status(lemma) { const s = st.w[lemma]; if (!s) return "new"; return s[0] >= KNOWN ? "known" : "learning"; }
 function viewPalabras() {
   const v = $("v-palabras"); v.textContent = "";
-  v.appendChild(el("div", "eyebrow", "Tu banco de palabras"));
+  v.appendChild(el("div", "eyebrow", "Your word bank"));
   const seen = Object.keys(st.w).length;
   const known = Object.values(st.w).filter(x => x[0] >= KNOWN).length;
   const stats = el("div", "stats");
-  for (const [n, lab] of [[seen + " / " + WORDS.length, "palabras vistas"], [known, "ya sabidas"], [st.idx + " / " + STORIES.length, "cuentos leídos"], [streak() + (streak() === 1 ? " día" : " días"), "racha"]]) {
+  for (const [n, lab] of [[seen + " / " + WORDS.length, "words seen"], [known, "known"], [st.idx + " / " + STORIES.length, "stories read"], [streak() + (streak() === 1 ? " day" : " days"), "streak"]]) {
     const b = el("div", "stat"); b.appendChild(el("b", null, String(n))); b.appendChild(el("span", null, lab)); stats.appendChild(b);
   }
   v.appendChild(stats);
 
-  const inp = el("input", "search"); inp.id = "search"; inp.type = "search"; inp.placeholder = "Buscar en español o en inglés"; inp.value = query;
-  inp.setAttribute("aria-label", "Buscar palabra");
+  const inp = el("input", "search"); inp.id = "search"; inp.type = "search"; inp.placeholder = "Search in Spanish or English"; inp.value = query;
+  inp.setAttribute("aria-label", "Search words");
   v.appendChild(inp);
   const seg = el("div", "seg"); seg.style.marginTop = "10px";
-  for (const [k, txt] of [["seen", "Vistas"], ["known", "Sabidas"], ["all", "Todas"]]) {
+  for (const [k, txt] of [["seen", "Seen"], ["known", "Known"], ["all", "All"]]) {
     const b = el("button", null, txt); b.setAttribute("aria-pressed", String(filter === k));
     b.onclick = () => { filter = k; limit = 150; viewPalabras(); }; seg.appendChild(b);
   }
@@ -603,16 +603,16 @@ function viewPalabras() {
       const li = el("li"); const es = el("span", "es");
       if (w[2]) es.appendChild(el("small", null, w[2] + " "));
       es.appendChild(document.createTextNode(w[0]));
-      const tag = s === "known" ? "sabida" : s === "learning" ? "aprendiendo" : w[3] ? "día " + w[3] : "en espera";
+      const tag = s === "known" ? "known" : s === "learning" ? "learning" : w[3] ? "day " + w[3] : "waiting";
       li.append(es, el("span", "st " + s, tag), el("span", "en", w[1]));
       li.onclick = () => openSheet({ i });
       frag.appendChild(li);
     }
     ul.appendChild(frag);
     more.textContent = "";
-    if (!items.length) more.textContent = filter === "seen" && !q ? "Todavía no hay palabras vistas. Empieza con el cuento de hoy." : "Nada coincide con la búsqueda.";
+    if (!items.length) more.textContent = filter === "seen" && !q ? "No words seen yet. Start with today's story." : "Nothing matches your search.";
     else if (items.length > limit) {
-      const b = el("button", "btn ghost small", "Mostrar más (" + (items.length - limit) + ")");
+      const b = el("button", "btn ghost small", "Show more (" + (items.length - limit) + ")");
       b.onclick = () => { limit += 300; draw(); }; more.appendChild(b);
     }
   };
@@ -621,35 +621,35 @@ function viewPalabras() {
 
   // own words
   const add = el("div", "panel");
-  add.appendChild(el("h2", null, "Añadir palabras"));
+  add.appendChild(el("h2", null, "Add words"));
   const nOwn = st.custom.length, nWait = waiting();
   add.appendChild(el("p", null,
-    "Una por línea, con su significado: «mercado = market». Entran al repaso, " + NEW_PER_DAY + " por día." +
-    (nOwn ? " Tienes " + nOwn + " palabras tuyas" + (nWait ? ", " + nWait + " esperando turno." : ".") : "")));
-  const ata = el("textarea"); ata.id = "addwords"; ata.setAttribute("aria-label", "Palabras nuevas");
+    "One per line, with its meaning: mercado = market. They enter review, " + NEW_PER_DAY + " per day." +
+    (nOwn ? " You have " + nOwn + " words of your own" + (nWait ? ", " + nWait + " waiting." : ".") : "")));
+  const ata = el("textarea"); ata.id = "addwords"; ata.setAttribute("aria-label", "New words");
   ata.placeholder = "el mercado = market\ncaminar = to walk\nbuenos días = good morning";
   add.appendChild(ata);
   const ar = el("div", "row"); ar.style.marginTop = "10px";
-  const addBtn = el("button", "btn small", "Añadir");
+  const addBtn = el("button", "btn small", "Add");
   addBtn.onclick = () => {
-    if (!ata.value.trim()) return toast("Escribe al menos una palabra con su significado.");
+    if (!ata.value.trim()) return toast("Write at least one word with its meaning.");
     const r = addWords(ata.value);
     const bits = [];
-    if (r.added) bits.push(r.added + (r.added === 1 ? " añadida" : " añadidas"));
-    if (r.known) bits.push(r.known + " ya estaban");
-    if (r.noMeaning.length) bits.push(r.noMeaning.length + " sin significado: " + r.noMeaning.slice(0, 3).join(", ") + (r.noMeaning.length > 3 ? "…" : ""));
+    if (r.added) bits.push(r.added + " added");
+    if (r.known) bits.push(r.known + " already in your bank");
+    if (r.noMeaning.length) bits.push(r.noMeaning.length + " missing a meaning: " + r.noMeaning.slice(0, 3).join(", ") + (r.noMeaning.length > 3 ? "…" : ""));
     const leftover = r.noMeaning.map(x => x + " = ").join("\n");
-    refreshBadge(); viewPalabras(); toast(bits.join(" · ") || "Nada que añadir.");
+    refreshBadge(); viewPalabras(); toast(bits.join(" · ") || "Nothing to add.");
     if (leftover) { const t = $("addwords"); t.value = leftover; t.focus(); }
   };
   ar.appendChild(addBtn);
   if (nOwn) {
-    const exp = el("button", "btn ghost small", "Copiar mi lista para Claude");
+    const exp = el("button", "btn ghost small", "Copy my list for Claude");
     exp.onclick = () => {
       const txt = st.custom.map(c => (c[2] ? c[2] + " " : "") + c[0] + " = " + c[1]).join("\n");
       ata.value = txt;
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => toast("Lista copiada. Pégala en el chat para recibir cuentos con estas palabras."), () => { ata.select(); toast("Selecciona el texto y cópialo."); });
-      else { ata.select(); toast("Selecciona el texto y cópialo."); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => toast("List copied. Paste it in the chat with Claude to get stories with these words."), () => { ata.select(); toast("Select the text and copy it."); });
+      else { ata.select(); toast("Select the text and copy it."); }
     };
     ar.appendChild(exp);
   }
@@ -658,38 +658,38 @@ function viewPalabras() {
 
   // backup
   const pan = el("div", "panel");
-  pan.appendChild(el("h2", null, "Copia de seguridad"));
-  pan.appendChild(el("p", null, "Tu progreso vive solo en este navegador. Copia el código para guardarlo, o pégalo en otro dispositivo para continuar allí."));
-  const ta = el("textarea"); ta.id = "backup"; ta.setAttribute("aria-label", "Código de progreso"); ta.placeholder = "Pega aquí un código para restaurar";
+  pan.appendChild(el("h2", null, "Backup"));
+  pan.appendChild(el("p", null, "Your progress is saved only in this browser. Copy the code to keep a backup, or paste it on another device to continue there."));
+  const ta = el("textarea"); ta.id = "backup"; ta.setAttribute("aria-label", "Progress code"); ta.placeholder = "Paste a code here to restore";
   pan.appendChild(ta);
   const r = el("div", "row"); r.style.marginTop = "10px";
-  const copy = el("button", "btn small", "Copiar mi código");
+  const copy = el("button", "btn small", "Copy my code");
   copy.onclick = () => {
     const code = JSON.stringify(st); ta.value = code;
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(() => toast("Código copiado."), () => { ta.select(); toast("Selecciona el texto y cópialo."); });
-    else { ta.select(); toast("Selecciona el texto y cópialo."); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(() => toast("Code copied."), () => { ta.select(); toast("Select the text and copy it."); });
+    else { ta.select(); toast("Select the text and copy it."); }
   };
-  const load = el("button", "btn ghost small", "Restaurar desde el código");
+  const load = el("button", "btn ghost small", "Restore from code");
   load.onclick = () => {
     try {
       const obj = JSON.parse(ta.value);
       if (typeof obj !== "object" || !obj || typeof obj.idx !== "number" || typeof obj.w !== "object") throw 0;
-      st = Object.assign(fresh(), obj); syncCustom(); feedNew(); save(); refreshBadge(); renderStreak(); viewPalabras(); toast("Progreso restaurado.");
-    } catch (e) { toast("Ese código no es válido. Copia el código completo y vuelve a intentarlo."); }
+      st = Object.assign(fresh(), obj); syncCustom(); feedNew(); save(); refreshBadge(); renderStreak(); viewPalabras(); toast("Progress restored.");
+    } catch (e) { toast("That code isn't valid. Copy the whole code and try again."); }
   };
   r.append(copy, load); pan.appendChild(r);
   v.appendChild(pan);
 
   const pan2 = el("div", "panel");
-  pan2.appendChild(el("h2", null, "Empezar de nuevo"));
-  pan2.appendChild(el("p", null, "Borra todo el progreso de este dispositivo y vuelve al día 1."));
-  const conf = el("div", "row"); const wipe = el("button", "btn ghost small", "Borrar progreso");
+  pan2.appendChild(el("h2", null, "Start over"));
+  pan2.appendChild(el("p", null, "Erase all progress on this device and go back to day 1."));
+  const conf = el("div", "row"); const wipe = el("button", "btn ghost small", "Erase progress");
   wipe.onclick = () => {
     conf.textContent = "";
-    conf.appendChild(el("span", "sub", "¿Seguro? No se puede deshacer."));
-    const yes = el("button", "btn bad small", "Sí, borrar todo");
-    yes.onclick = () => { st = fresh(); syncCustom(); save(); refreshBadge(); renderStreak(); viewPalabras(); toast("Progreso borrado."); };
-    const no = el("button", "btn ghost small", "Cancelar"); no.onclick = () => viewPalabras();
+    conf.appendChild(el("span", "sub", "Are you sure? This can't be undone."));
+    const yes = el("button", "btn bad small", "Yes, erase everything");
+    yes.onclick = () => { st = fresh(); syncCustom(); save(); refreshBadge(); renderStreak(); viewPalabras(); toast("Progress erased."); };
+    const no = el("button", "btn ghost small", "Cancel"); no.onclick = () => viewPalabras();
     conf.append(yes, no);
   };
   conf.appendChild(wipe); pan2.appendChild(conf);
@@ -698,7 +698,7 @@ function viewPalabras() {
 
 /* ---------- shell ---------- */
 function refreshBadge() { const n = due().length, b = $("badge"); b.textContent = n > 99 ? "99+" : String(n); b.hidden = n === 0; }
-function renderStreak() { const n = streak(); $("streak").textContent = n ? "racha · " + n + (n === 1 ? " día" : " días") : ""; }
+function renderStreak() { const n = streak(); $("streak").textContent = n ? n + "-day streak" : ""; }
 function show(name) {
   for (const n of ["hoy", "repaso", "palabras"]) {
     $("v-" + n).hidden = n !== name;
